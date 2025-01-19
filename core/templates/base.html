@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} Backtesting Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Dark Mode Toggle -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+        <div class="w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-6 space-y-6 relative shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6">Backtesting Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'base' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Dashboard</a></li>
+                    <li><a href="{% url 'strategyoverview' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Strategy Overview</a></li>
+                    <li><a href="{% url 'performanceanalytics' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Performance Analytics</a></li>
+                    <li><a href="{% url 'tradeslog' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Trades Log</a></li>
+                    {% if not request.user.profile.payment_completed %}
+                    <li class="relative">
+                        <a href="#" class="block py-3 px-4 text-lg text-gray-400 cursor-not-allowed">
+                            Payments <span class="absolute right-4">&#x1F512;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li><a href="{% url 'payment_details' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Payments</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <button id="sidebar-toggle" class="absolute top-6 right-4 text-white md:hidden">
+                ☰
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <!-- Navbar -->
+            <header class="flex items-center justify-between mb-8">
+                <h1 class="text-3xl font-semibold text-blue-900 dark:text-white">Dashboard Overview</h1>
+                <div class="flex items-center space-x-4">
+                    {% if request.user.is_authenticated %}
+                    <div class="relative group">
+                        {% if request.user.profile.profile_image %}
+                        <a href="{% url 'profile_details' %}" class="relative">
+                            <img src="{{ request.user.profile.profile_image.url }}" alt="Profile Image"
+                                class="w-12 h-12 rounded-full border-2 border-green-500 hover:scale-105 transition-all">
+                        </a>
+                        {% endif %}
+                        <div
+                            class="absolute hidden group-hover:flex flex-col items-start bg-gray-700 text-white text-sm p-4 rounded-lg shadow-lg mt-2">
+                            <p><strong>Hours Online:</strong> 5 hrs</p>
+                            <p><strong>Changes Made:</strong> 12</p>
+                            <p><strong>Users/Admins:</strong> 45/5</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'logout' %}"
+                        class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-500 transition-all">Log
+                        Out</a>
+                    {% else %}
+                    <a href="{% url 'signup' %}"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-500 transition-all">Sign
+                        Up</a>
+                    <a href="{% url 'login' %}"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-500 transition-all">Log
+                        In</a>
+                    {% endif %}
+                </div>
+            </header>
+
+            <!-- Main Content Block -->
+            <div class="space-y-6">
+                {% block content %}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Live Cryptocurrency Prices -->
+                    <div class="bg-gray-200 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                        <h2 class="text-2xl font-bold mb-4">Live Cryptocurrency Prices</h2>
+                        <ul>
+                            <li class="mb-2 text-gray-700">Bitcoin: <span class="text-green-500">$95101</span></li>
+                            <li class="mb-2 text-gray-700">Ethereum: <span class="text-green-500">$3292.5</span></li>
+                            <li class="mb-2 text-gray-700">Cardano: <span class="text-green-500">$0.994865</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Latest News -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                        <h2 class="text-2xl font-bold mb-4">Latest News for Bitcoin</h2>
+                        <ul>
+                            {% if news %}
+                                {% for article in news %}
+                                    <li class="mb-4">
+                                        <div class="bg-gray-100 p-4 rounded-lg">
+                                            <a href="{{ article.url }}" class="text-blue-500 hover:underline" target="_blank">{{ article.title }}</a>
+                                            <p class="text-sm text-gray-500">{{ article.description }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li>No news available at the moment.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+ 
+    <script>
+        // Dark Mode Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+        
+            // Check Local Storage for Dark Mode
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                darkModeToggle.textContent = '☀️';
+            }
+        
+            // Add Click Event Listener
+            darkModeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                if (isDark) {
+                    localStorage.setItem('theme', 'dark');
+                    darkModeToggle.textContent = '☀️'; // Sun Icon for Light Mode
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    darkModeToggle.textContent = '🌙'; // Moon Icon for Dark Mode
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
