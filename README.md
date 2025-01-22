@@ -7,7 +7,7 @@ The **Backtesting Dashboard** is a web application designed for monitoring tradi
 
 ## Features
 - 📈 **Dashboard Overview** with performance highlights.
-- 💰 **Live Cryptocurrency Prices** for key assets (e.g., Bitcoin, Ethereum) .
+- 💰 **Live Cryptocurrency Prices** for key assets (e.g., Bitcoin, Ethereum).
 - 📰 **Latest News** for market updates and insights.
 - 📊 Strategy Overview and Performance Analytics.
 - 🗒️ Detailed Trades Log.
