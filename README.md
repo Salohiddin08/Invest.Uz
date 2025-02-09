@@ -1,7 +1,7 @@
 # Backtesting Dashboard
 
 ## Overview
-The **Backtesting Dashboard** is a web application designed for monitoring trading strategies, viewing live cryptocurrency prices, accessing performance analytics, and reviewing trade logs. This project offers an intuitive interface tailored for traders and analysts.
+The **Backtesting Dashboard** is a web application designed for monitoring trading strategies, viewing  live cryptocurrency prices, accessing performance analytics, and reviewing trade logs. This project offers an intuitive interface tailored for traders and analysts.
 
 ---
 
