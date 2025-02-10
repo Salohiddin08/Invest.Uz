@@ -16,7 +16,7 @@ The **Backtesting Dashboard** is a web application designed for monitoring tradi
 
 ## Installation
 
-### Step 1: Clone the repository
+### Step 1: Clone the  repository
 ```bash
 git clone https://github.com/MustcodeQ/backtesting-dashboard.git
 cd backtesting-dashboard
