@@ -14,7 +14,6 @@ The **Backtesting Dashboard** is a web application designed for monitoring tradi
 
 ---
 
-
 ## Installation
 
 ### Step 1: Clone the  repository
