@@ -259,3 +259,105 @@ def register_trade(request):
     else:
         form = TradeForm()
     return render(request, 'core/register_trade.html', {'form': form})
+from django.http import JsonResponse
+import requests
+from datetime import datetime
+
+import requests
+from django.http import JsonResponse
+import datetime
+
+def get_prices(request):
+    try:
+        # CoinGecko (BTC, ETH)
+        crypto_res = requests.get(
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
+        ).json()
+
+        # Exchangerate.host (Forex + Gold)
+        forex_res = requests.get(
+            "https://api.exchangerate.host/latest?base=USD&symbols=UZS,JPY,EUR,XAU"
+        ).json()
+
+        prices = {
+            "BTC/USD": crypto_res["bitcoin"]["usd"],
+            "ETH/USD": crypto_res["ethereum"]["usd"],
+            "USD/UZS": round(forex_res["rates"]["UZS"], 2),
+            "USD/JPY": round(forex_res["rates"]["JPY"], 2),
+            "EUR/USD": round(1 / forex_res["rates"]["EUR"], 4),
+            "XAU/USD": round(1 / forex_res["rates"]["XAU"], 2),  # Oltin narxi
+        }
+
+    except Exception as e:
+        prices = {"error": str(e)}
+
+    return JsonResponse({
+        "prices": prices,
+        "updated": datetime.datetime.now().strftime("%H:%M:%S")
+    })
+import requests
+from django.shortcuts import render
+
+def economic_calendar(request):
+    api_key = "8YWGDSEMSE2MWQAJ"
+    url = f"https://www.alphavantage.co/query?function=ECONOMIC_CALENDAR&apikey={api_key}"
+
+    response = requests.get(url)
+    data = response.json()
+
+    events = data.get("economicCalendar", [])
+
+    return render(request, "calendar.html", {"events": events})
+# views.py
+import requests
+from django.shortcuts import render
+
+FRED_API_KEY = "ffd6b8148d9935750f35bf5e3a201164"
+
+# FRED indikatorlarini sozlash
+FRED_SERIES = {
+    "NFP (Nonfarm Payrolls)": "PAYEMS",
+    "CPI (Inflation)": "CPIAUCSL",
+    "GDP": "GDP",
+    "Federal Funds Rate": "FEDFUNDS",
+    "Unemployment Rate": "UNRATE"
+}
+
+def economic_calendar(request):
+    events = []
+
+    for name, series_id in FRED_SERIES.items():
+        url = "https://api.stlouisfed.org/fred/series/observations"
+        params = {
+            "series_id": series_id,
+            "api_key": FRED_API_KEY,
+            "file_type": "json",
+            "sort_order": "desc",
+            "limit": 2  # oxirgi 2 ta qiymat (oldingi + yangi)
+        }
+        try:
+            res = requests.get(url, params=params)
+            data = res.json().get("observations", [])
+
+            if len(data) >= 2:
+                latest = data[-1]   # oxirgi
+                previous = data[-2] # oldingi
+
+                events.append({
+                    "date": latest.get("date"),
+                    "country": "🇺🇸 AQSH",
+                    "event": name,
+                    "forecast": "-",  # FRED forecast bermaydi
+                    "previous": previous.get("value"),
+                    "actual": latest.get("value"),
+                })
+        except Exception as e:
+            print(f"Xato: {e}")
+
+    return render(request, "economic_calendar.html", {"events": events})
+
+
+
+@login_required
+def calendar__(request):
+    return render(request, 'calendar.html')

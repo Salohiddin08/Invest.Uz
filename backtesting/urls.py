@@ -31,6 +31,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # Authentication URLs
     #path('', homepage, name='homepage'),  # Add this for the root URL
     path('', include('core.urls')),  # Replace 'your_app_name' with your actual app name
+    path("", include("core.urls")),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

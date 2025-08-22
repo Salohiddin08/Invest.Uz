@@ -1,27 +1,90 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Strategy Overview
+    Strategiyalar Quiz
 {% endblock %}
 
 {% block content %}
-    <h2 class="text-2xl font-semibold mb-6">Overview of Strategies</h2>
-    <p class="text-gray-700 mb-4">Here you can review the strategies implemented during the backtesting period, including their parameters, performance, and risk profiles.</p>
+    <h2 class="text-2xl font-semibold mb-6 text-blue-700">📖 Strategiyalar bo‘yicha test</h2>
+    <p class="text-gray-700 mb-4">Quyida berilgan test savollarini yeching. "Next" tugmasini bosib keyingi savolga o‘tasiz.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Example Strategy Card -->
-        <div class="bg-gray-50 shadow-md rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-blue-900">Strategy SMC</h3>
-            <p class="text-gray-600 mt-2">Risk Level: Medium</p>
-            <p class="text-gray-600 mt-1 mb-4">Performance: 80% Win Rate</p>
-            <a href="https://howtotrade.com/trading-strategies/smart-money-concept-smc/" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition">View Details</a>
-        </div>
-        <!-- Another Strategy Card -->
-        <div class="bg-gray-50 shadow-md rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-blue-900">Strategy ICT</h3>
-            <p class="text-gray-600 mt-2">Risk Level: High</p>
-            <p class="text-gray-600 mt-1 mb-4">Performance: 70% Win Rate</p>
-            <a href="https://forextester.com/blog/ict-trading" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition">View Details</a>
+    <div id="quiz-container" class="bg-white shadow-lg rounded-lg p-6">
+        <!-- Savol chiqadigan joy -->
+        <h3 id="question" class="text-xl font-bold mb-4 text-gray-900"></h3>
+
+        <!-- Javob variantlari -->
+        <div id="options" class="space-y-3"></div>
+
+        <!-- Tugmalar -->
+        <div class="mt-6 flex justify-between">
+            <button id="nextBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition">Next ➡️</button>
         </div>
     </div>
+
+    <!-- Natija chiqadigan joy -->
+    <div id="result-container" class="hidden mt-8 p-6 bg-green-100 text-green-800 rounded-lg shadow">
+        <h3 class="text-2xl font-bold">✅ Test tugadi!</h3>
+        <p id="score" class="mt-4 text-lg"></p>
+    </div>
+
+    <script>
+        // Savollar ro‘yxati
+        const questions = [
+            { question: "SMC strategiyasi nimani anglatadi?", options: ["Smart Money Concept", "Simple Market Control", "Safe Market Code"], correct: 0 },
+            { question: "ICT strategiyasi qaysi so‘zlarning qisqartmasi?", options: ["Inner Circle Trader", "Instant Crypto Trading", "Intelligent Currency Tactic"], correct: 0 },
+            { question: "Risk darajasi yuqori strategiya qaysi?", options: ["SMC", "ICT", "Ikkalasi ham xavfsiz"], correct: 1 },
+            { question: "Savdo jurnalining maqsadi nima?", options: ["Savdolarni qayd qilish", "Xizmat ko‘rsatish", "Grafik chizish"], correct: 0 },
+            { question: "Win Rate 70% bo‘lsa, bu nimani anglatadi?", options: ["10 ta savdoning 7 tasi yutadi", "10 ta savdoning 3 tasi yutadi", "Barchasi yutadi"], correct: 0 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const nextBtn = document.getElementById("nextBtn");
+        const resultContainer = document.getElementById("result-container");
+        const scoreEl = document.getElementById("score");
+
+        function loadQuestion() {
+            let q = questions[currentQuestion];
+            questionEl.textContent = (currentQuestion + 1) + ". " + q.question;
+
+            optionsEl.innerHTML = "";
+            q.options.forEach((option, index) => {
+                let btn = document.createElement("button");
+                btn.textContent = option;
+                btn.className = "block w-full text-left px-4 py-2 border rounded-lg hover:bg-blue-100";
+                btn.onclick = () => checkAnswer(index);
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected) {
+            if (selected === questions[currentQuestion].correct) {
+                score++;
+            }
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz-container").classList.add("hidden");
+            resultContainer.classList.remove("hidden");
+            scoreEl.textContent = `Siz ${questions.length} ta savoldan ${score} tasiga to‘g‘ri javob berdingiz. 🎉`;
+        }
+
+        nextBtn.addEventListener("click", nextQuestion);
+
+        // Boshlash
+        loadQuestion();
+    </script>
 {% endblock %}

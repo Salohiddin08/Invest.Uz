@@ -1,144 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %} Backtesting Dashboard</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Invest.Uz | Real Vaqtda Moliyaviy Bozor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Dark Mode Toggle -->
-    <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-        }
-    </script>
 </head>
 
-<body class="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 transition-colors duration-300">
+<body class="bg-white text-gray-900 transition-colors duration-300 flex flex-col min-h-screen">
 
-    <!-- Sidebar -->
-    <div class="flex h-screen">
-        <div class="w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-6 space-y-6 relative shadow-lg">
-            <h2 class="text-2xl font-semibold mb-6">Backtesting Dashboard</h2>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'base' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Dashboard</a></li>
-                    <li><a href="{% url 'strategyoverview' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Strategy Overview</a></li>
-                    <li><a href="{% url 'performanceanalytics' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Performance Analytics</a></li>
-                    <li><a href="{% url 'tradeslog' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Trades Log</a></li>
-                    {% if not request.user.profile.payment_completed %}
-                    <li class="relative">
-                        <a href="#" class="block py-3 px-4 text-lg text-gray-400 cursor-not-allowed">
-                            Payments <span class="absolute right-4">&#x1F512;</span>
-                        </a>
-                    </li>
-                    {% else %}
-                    <li><a href="{% url 'payment_details' %}" class="block py-3 px-4 text-lg hover:bg-blue-600 rounded-lg transition-all">Payments</a></li>
-                    {% endif %}
-                </ul>
+    <!-- Navbar -->
+    <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+            <h1 class="text-2xl font-bold text-blue-700">📊 Invest.Uz</h1>
+
+            <nav class="hidden md:flex space-x-6">
+                <a href="{% url 'landingpage' %}" class="hover:text-blue-600">Bosh sahifa</a>
+                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-600">Test</a>
+                <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-600">Natijalar</a>
+                <a href="{% url 'calendar___' %}" class="hover:text-blue-600">Kalendar</a>
             </nav>
-            <button id="sidebar-toggle" class="absolute top-6 right-4 text-white md:hidden">
-                ☰
-            </button>
-        </div>
 
-        <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <!-- Navbar -->
-            <header class="flex items-center justify-between mb-8">
-                <h1 class="text-3xl font-semibold text-blue-900 dark:text-white">Dashboard Overview</h1>
-                <div class="flex items-center space-x-4">
-                    {% if request.user.is_authenticated %}
-                    <div class="relative group">
+            <div class="flex items-center space-x-4">
+                {% if request.user.is_authenticated %}
+                <div class="relative">
+                    <button id="profileBtn" aria-label="Profil menyusini ochish">
                         {% if request.user.profile.profile_image %}
-                        <a href="{% url 'profile_details' %}" class="relative">
-                            <img src="{{ request.user.profile.profile_image.url }}" alt="Profile Image"
-                                class="w-12 h-12 rounded-full border-2 border-green-500 hover:scale-105 transition-all">
-                        </a>
+                        <img src="{{ request.user.profile.profile_image.url }}" alt="Profil rasmi"
+                            class="w-10 h-10 rounded-full border-2 border-green-500">
+                        {% else %}
+                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">👤</div>
                         {% endif %}
-                        <div
-                            class="absolute hidden group-hover:flex flex-col items-start bg-gray-700 text-white text-sm p-4 rounded-lg shadow-lg mt-2">
-                            <p><strong>Hours Online:</strong> 5 hrs</p>
-                            <p><strong>Changes Made:</strong> 12</p>
-                            <p><strong>Users/Admins:</strong> 45/5</p>
-                        </div>
-                    </div>
-                    <a href="{% url 'logout' %}"
-                        class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-500 transition-all">Log
-                        Out</a>
-                    {% else %}
-                    <a href="{% url 'signup' %}"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-500 transition-all">Sign
-                        Up</a>
-                    <a href="{% url 'login' %}"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-500 transition-all">Log
-                        In</a>
-                    {% endif %}
-                </div>
-            </header>
-
-            <!-- Main Content Block -->
-            <div class="space-y-6">
-                {% block content %}
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Live Cryptocurrency Prices -->
-                    <div class="bg-gray-200 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                        <h2 class="text-2xl font-bold mb-4">Live Cryptocurrency Prices</h2>
-                        <ul>
-                            <li class="mb-2 text-gray-700">Bitcoin: <span class="text-green-500">$95101</span></li>
-                            <li class="mb-2 text-gray-700">Ethereum: <span class="text-green-500">$3292.5</span></li>
-                            <li class="mb-2 text-gray-700">Cardano: <span class="text-green-500">$0.994865</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Latest News -->
-                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                        <h2 class="text-2xl font-bold mb-4">Latest News for Bitcoin</h2>
-                        <ul>
-                            {% if news %}
-                                {% for article in news %}
-                                    <li class="mb-4">
-                                        <div class="bg-gray-100 p-4 rounded-lg">
-                                            <a href="{{ article.url }}" class="text-blue-500 hover:underline" target="_blank">{{ article.title }}</a>
-                                            <p class="text-sm text-gray-500">{{ article.description }}</p>
-                                        </div>
-                                    </li>
-                                {% endfor %}
-                            {% else %}
-                                <li>No news available at the moment.</li>
-                            {% endif %}
-                        </ul>
+                    </button>
+                    <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+                        <a href="{% url 'profile_details' %}" class="block px-4 py-2 hover:bg-gray-100">Profil</a>
+                        <a href="{% url 'strategyoverview' %}" class="block px-4 py-2 hover:bg-gray-100">Testlarim</a>
+                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Chiqish</a>
                     </div>
                 </div>
-                {% endblock %}
+                {% else %}
+                <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Ro‘yxatdan o‘tish</a>
+                <a href="{% url 'login' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Kirish</a>
+                {% endif %}
             </div>
         </div>
-    </div>
- 
+    </header>
+
+    <!-- Asosiy kontent -->
+    <main class="flex-1 mt-24 max-w-7xl mx-auto w-full p-6">
+        {% block content %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Narxlar -->
+            <section class="p-6 rounded-lg shadow-md bg-white">
+                <h2 class="text-xl font-bold mb-4 text-blue-700">📊 Real Vaqtdagi Narxlar</h2>
+                <ul id="prices-list" class="space-y-2">
+                    <li>Yuklanmoqda...</li>
+                </ul>
+                <p class="text-sm text-gray-500 mt-2">
+                    Oxirgi yangilanish: <span id="update-time">---</span>
+                </p>
+            </section>
+
+            <!-- Yangiliklar -->
+            <section class="p-6 rounded-lg shadow-md bg-white">
+                <h2 class="text-xl font-bold mb-4 text-blue-700">📰 Moliyaviy Yangiliklar</h2>
+                <ul class="space-y-3">
+                    {% if news %}
+                    {% for article in news %}
+                    <li>
+                        <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer"
+                            class="block text-blue-600 hover:underline font-semibold">
+                            {{ article.title }}
+                        </a>
+                        <p class="text-sm text-gray-600">{{ article.description }}</p>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    <li>Hozircha yangiliklar mavjud emas.</li>
+                    {% endif %}
+                </ul>
+            </section>
+
+            <!-- Diagramma -->
+            <section class="p-6 rounded-lg shadow-md bg-white">
+                <h2 class="text-xl font-bold mb-4 text-blue-700">📈 Bozor Diagrammasi</h2>
+                <div id="charts-widget" class="w-full h-96 rounded-lg overflow-hidden">
+                    <script src="https://widgets.tradingeconomics.com/static/charts-widget.js" async>
+                    {
+                        "symbols": ["USDEUR:CUR", "XAUUSD:CUR", "BTCUSD:CUR"],
+                        "width": "100%",
+                        "height": "100%",
+                        "header": true,
+                        "calendar": true
+                    }
+                    </script>
+                </div>
+            </section>
+
+        </div>
+        {% endblock %}
+    </main>
+
+    <!-- JS -->
     <script>
-        // Dark Mode Initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('dark-mode-toggle');
-        
-            // Check Local Storage for Dark Mode
-            if (localStorage.getItem('theme') === 'dark') {
-                document.documentElement.classList.add('dark');
-                darkModeToggle.textContent = '☀️';
-            }
-        
-            // Add Click Event Listener
-            darkModeToggle.addEventListener('click', () => {
-                const isDark = document.documentElement.classList.toggle('dark');
-                if (isDark) {
-                    localStorage.setItem('theme', 'dark');
-                    darkModeToggle.textContent = '☀️'; // Sun Icon for Light Mode
-                } else {
-                    localStorage.setItem('theme', 'light');
-                    darkModeToggle.textContent = '🌙'; // Moon Icon for Dark Mode
-                }
-            });
+        // Profil menyusini ochish
+        document.getElementById('profileBtn')?.addEventListener('click', () => {
+            document.getElementById('profileMenu').classList.toggle('hidden');
         });
+
+        // Profil menyusini body bosilganda yopish
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('profileMenu');
+            const btn = document.getElementById('profileBtn');
+            if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Narxlarni olish
+        async function loadPrices() {
+            try {
+                let response = await fetch("{% url 'get_prices' %}");
+                let data = await response.json();
+
+                let pricesList = document.getElementById("prices-list");
+                pricesList.innerHTML = "";
+
+                if (!data.prices || Object.keys(data.prices).length === 0) {
+                    pricesList.innerHTML = "<li>Hozircha narxlar mavjud emas.</li>";
+                } else {
+                    for (const [pair, price] of Object.entries(data.prices)) {
+                        pricesList.innerHTML += `
+                            <li class="flex justify-between border-b pb-1 mb-1">
+                                <span class="font-semibold">${pair}</span>
+                                <span class="text-green-500">${price}</span>
+                            </li>`;
+                    }
+                }
+
+                document.getElementById("update-time").innerText = data.updated;
+            } catch (error) {
+                console.error("Narxlarni olishda xato:", error);
+                document.getElementById("prices-list").innerHTML = "<li>Narxlarni yuklab bo‘lmadi.</li>";
+            }
+        }
+
+        loadPrices();
+        setInterval(loadPrices, 30000);
     </script>
 
 </body>

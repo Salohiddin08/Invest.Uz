@@ -1,174 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade-Fast | Manage Your Trades</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
-        }
-
-        .navbar {
-            background-color: #2c3e50;
-        }
-
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        .navbar-brand:hover {
-            color: #18bc9c;
-        }
-
-        .hero {
-            background: linear-gradient(to right, #3498db, #8e44ad);
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 30px;
-        }
-
-        .hero .btn {
-            padding: 12px 25px;
-            font-size: 1.2rem;
-            background-color: #18bc9c;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .hero .btn:hover {
-            background-color: #1abc9c;
-        }
-
-        .features {
-            padding: 60px 20px;
-        }
-
-        .feature-card {
-            border: none;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .feature-card i {
-            font-size: 3rem;
-            color: #3498db;
-            margin-bottom: 15px;
-        }
-
-        .cta {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: #ffffff;
-            text-align: center;
-            padding: 20px 10px;
-        }
-
-        footer a {
-            color: #18bc9c;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Invest.Uz | Real vaqtda moliya bozorini kuzating</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <!-- <img src="https://via.placeholder.com/50" alt="Trade-Fast Logo" class="me-2"> -->
-                Trade-Fast
-            </a>
-        </div>
-    </nav>
+<body class="bg-white text-gray-900 transition-colors duration-300 flex flex-col min-h-screen">
 
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container">
-            <h1>Take Control of Your Trades</h1>
-            <p>Track profits, analyze trends, and trade smarter with Trade-Fast, the ultimate platform for traders.</p>
-            <a href="{% url 'signup' %}" class="btn">Start Managing Now</a>
+    <!-- Navbar -->
+    <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+            <h1 class="text-2xl font-bold text-blue-700">📊 Invest.Uz</h1>
+
+            <nav class="hidden md:flex space-x-6">
+                <a href="{% url 'landingpage' %}" class="hover:text-blue-600">Bosh sahifa</a>
+                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-600">Test</a>
+                <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-600">Natijalar</a>
+                <a href="{% url 'calendar___' %}" class="hover:text-blue-600">Kalendar</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                {% if request.user.is_authenticated %}
+                <div class="relative">
+                    <button id="profileBtn" aria-label="Profil menyusini ochish">
+                        {% if request.user.profile.profile_image %}
+                        <img src="{{ request.user.profile.profile_image.url }}" alt="Profil rasmi"
+                            class="w-10 h-10 rounded-full border-2 border-green-500">
+                        {% else %}
+                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">👤</div>
+                        {% endif %}
+                    </button>
+                    <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+                        <a href="{% url 'profile_details' %}" class="block px-4 py-2 hover:bg-gray-100">Profil</a>
+                        <a href="{% url 'strategyoverview' %}" class="block px-4 py-2 hover:bg-gray-100">Testlarim</a>
+                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Chiqish</a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Ro‘yxatdan
+                    o‘tish</a>
+                <a href="{% url 'login' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Kirish</a>
+                {% endif %}
+            </div>
         </div>
     </header>
 
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-blue-600 to-cyan-400 text-white text-center py-32 mt-16">
+        <h1 class="text-4xl font-bold mb-4">Moliyaviy bozorlarni real vaqtda kuzating</h1>
+        <p class="text-xl mb-6">Invest.Uz yordamida kripto, valyuta va aksiyalar bozorini o‘rganing, trendlarni tahlil
+            qiling va aqlli investitsiyalar qiling.</p>
+        <a href="{% url 'signup' %}" class="bg-yellow-500 hover:bg-yellow-400 text-white px-6 py-3 rounded-lg text-lg">Boshlash</a>
+    </header>
+
     <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="text-center mb-5">Why Choose Trade-Fast?</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h5>Advanced Analytics</h5>
-                        <p>Understand your trading habits with detailed performance charts and insights.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-clock"></i>
-                        <h5>Real-Time Tracking</h5>
-                        <p>Stay ahead of the market by monitoring your portfolio anytime, anywhere.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-lock"></i>
-                        <h5>Secure & Reliable</h5>
-                        <p>Enjoy peace of mind knowing your data is safe with top-level security protocols.</p>
-                    </div>
-                </div>
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12">Nega aynan Invest.Uz?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition">
+                <i class="fas fa-chart-line text-4xl text-blue-700 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Kengaytirilgan tahlil</h3>
+                <p>Moliyaviy bozorlar va investitsiyalaringizni batafsil grafiklar va tahlillar orqali kuzating.</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition">
+                <i class="fas fa-clock text-4xl text-blue-700 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Real vaqt kuzatuvi</h3>
+                <p>Valyuta, kripto va aksiyalar bozorini istalgan vaqtda, istalgan joydan kuzating.</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-xl transition">
+                <i class="fas fa-lock text-4xl text-blue-700 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Xavfsiz va ishonchli</h3>
+                <p>Ma’lumotlaringiz eng yuqori darajadagi xavfsizlik va ishonchlilik bilan himoyalangan.</p>
             </div>
         </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="cta">
-        <div class="container">
-            <h2>Ready to Trade Smarter?</h2>
-            <p>Sign up today and unlock your full trading potential with Trade-Fast.</p>
-            <a href="{% url 'signup' %}" class="btn btn-light btn-lg">Get Started</a>
-        </div>
+    <section class="bg-blue-700 text-white text-center py-16">
+        <h2 class="text-3xl font-bold mb-4">Aqlli investitsiyalarga tayyormisiz?</h2>
+        <p class="mb-6">Bugunoq ro‘yxatdan o‘ting va bozor imkoniyatlaridan to‘liq foydalaning.</p>
+        <a href="{% url 'signup' %}" class="bg-yellow-500 hover:bg-yellow-400 text-white px-6 py-3 rounded-lg text-lg">Boshlash</a>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Trade-Fast. Built for traders, by traders. <br> <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+    <footer class="bg-blue-700 text-white text-center py-6">
+        <p>&copy; 2025 Invest.Uz. Investorlar uchun, investorlar tomonidan yaratilgan. <br>
+            <a href="#" class="underline">Maxfiylik siyosati</a> | <a href="#" class="underline">Foydalanish shartlari</a>
+        </p>
     </footer>
 
     <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script>
+        // Profil menyusini ochish
+        document.getElementById('profileBtn')?.addEventListener('click', () => {
+            document.getElementById('profileMenu').classList.toggle('hidden');
+        });
+
+        // Profil menyusini body bosilganda yopish
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('profileMenu');
+            const btn = document.getElementById('profileBtn');
+            if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 
 </html>
