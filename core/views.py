@@ -27,7 +27,7 @@ def base(request):
     news = get_crypto_news("bitcoin")  
     print("News:", news)
 
-    return render(request, 'base.html', {
+    return render(request, 'landingpage.html', {
         'profile': profile,
         'metrics': metrics,
         'trades': trades,
@@ -182,7 +182,7 @@ def user_list(request):
     return render(request, 'user_list.html', {'users': users})
 
 def landingpage(request):
-    return render(request, "landingpage.html")
+    return render(request, "base.html")
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required

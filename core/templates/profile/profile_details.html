@@ -1,103 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .container {
-            max-width: 800px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .form-label {
-            font-weight: 500;
-            margin-bottom: 10px;
-            color: #6c757d;
-        }
-        .form-control, .form-select {
-            border-radius: 8px;
-            background-color: #e9ecef;
-            border: 1px solid #ced4da;
-        }
-        .form-control::placeholder {
-            color: #adb5bd;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            transition: background-color 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        img.rounded-circle {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
+{% block title %}
+    Profilni tahrirlash
+{% endblock %}
 
-<body class="bg-gray-100 text-gray-900">
+{% block content %}
+<div class="flex justify-center py-10">
+    <div class="w-full max-w-xl bg-gray-800 rounded-xl shadow-xl p-8">
+        <h2 class="text-3xl font-semibold mb-6 text-blue-400 text-center">Profile Details</h2>
 
-<div class="container mt-5">
-    <h2 class="mb-4">Profile Details</h2>
-    
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="profile_image" class="form-label">Profile Image</label>
-            <input type="file" name="profile_image" class="form-control" id="profile_image" accept="image/*">
-            {% if profile.profile_image %}
-                <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="mt-2 rounded-circle" width="150">
-            {% endif %}
-        </div>
-        <!-- Other Form Fields -->
-        <div class="mb-3">
-            <label for="bio" class="form-label">Your Bio</label>
-            <textarea class="form-control" id="bio" name="bio" rows="4">{{ form.bio.value }}</textarea>
-        </div>
-        <div class="mb-3">
-            <label for="trader_type" class="form-label">Trader Type</label>
-            <select class="form-select" id="trader_type" name="trader_type">
-                <option value="crypto" {% if form.trader_type.value == 'crypto' %}selected{% endif %}>Crypto</option>
-                <option value="forex" {% if form.trader_type.value == 'forex' %}selected{% endif %}>Forex</option>
-                <option value="other" {% if form.trader_type.value == 'other' %}selected{% endif %}>Other</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="crypto_coins" class="form-label">Coins You're Interested In</label>
-            <input type="text" class="form-control" id="crypto_coins" name="crypto_coins" value="{{ form.crypto_coins.value }}">
-        </div>
-        <div class="mb-3">
-            <label for="forex_account_type" class="form-label">Forex Account Type</label>
-            <select class="form-select" id="forex_account_type" name="forex_account_type">
-                <option value="personal" {% if form.forex_account_type.value == 'personal' %}selected{% endif %}>Personal Account</option>
-                <option value="funded" {% if form.forex_account_type.value == 'funded' %}selected{% endif %}>Funded Account</option>
-            </select>
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-    </form>
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Profile Avatar with Upload & Delete Buttons -->
+            <div class="flex flex-col items-center mb-6">
+                <div class="relative w-32 h-32 mb-2">
+                    {% if profile.profile_image %}
+                        <img id="avatarPreview" src="{{ profile.profile_image.url }}" alt="Profile Avatar"
+                             class="w-32 h-32 rounded-full border-2 border-blue-400 shadow-md object-cover">
+                    {% else %}
+                        <div id="avatarPreview" class="w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center text-4xl border-2 border-blue-400 shadow-md">
+                            👤
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="flex space-x-4">
+                    <!-- Upload Button -->
+                    <label for="profile_image"
+                           class="flex flex-col items-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md transition">
+                        <i class="fas fa-upload text-lg mb-1"></i>
+                        <span class="text-sm font-medium">Upload Image</span>
+                    </label>
+                    <input type="file" name="profile_image" id="profile_image" accept="image/*" class="hidden"/>
+
+                    <!-- Delete Button -->
+                    <button type="button" id="deleteAvatar"
+                            class="flex flex-col items-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-md transition">
+                        <i class="fas fa-trash text-lg mb-1"></i>
+                        <span class="text-sm font-medium">Delete Image</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bio -->
+            <div>
+                <label for="bio" class="block mb-2 font-medium text-gray-300">Your Bio</label>
+                <textarea id="bio" name="bio" rows="4"
+                          class="w-full bg-gray-700 text-gray-100 p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ form.bio.value }}</textarea>
+            </div>
+
+            <!-- Trader Type -->
+            <div>
+                <label for="trader_type" class="block mb-2 font-medium text-gray-300">Trader Type</label>
+                <select id="trader_type" name="trader_type"
+                        class="w-full bg-gray-700 text-gray-100 p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="crypto" {% if form.trader_type.value == 'crypto' %}selected{% endif %}>Crypto</option>
+                    <option value="forex" {% if form.trader_type.value == 'forex' %}selected{% endif %}>Forex</option>
+                    <option value="other" {% if form.trader_type.value == 'other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+
+            <!-- Forex Account Type -->
+            <div>
+                <label for="forex_account_type" class="block mb-2 font-medium text-gray-300">Forex Account Type</label>
+                <select id="forex_account_type" name="forex_account_type"
+                        class="w-full bg-gray-700 text-gray-100 p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="personal" {% if form.forex_account_type.value == 'personal' %}selected{% endif %}>Personal Account</option>
+                    <option value="funded" {% if form.forex_account_type.value == 'funded' %}selected{% endif %}>Funded Account</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-colors duration-300">
+                    Update Profile
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+
 <script>
-    document.getElementById('profile_image').addEventListener('change', function(event) {
+    const avatarInput = document.getElementById('profile_image');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const deleteBtn = document.getElementById('deleteAvatar');
+
+    // Preview uploaded avatar
+    avatarInput.addEventListener('change', function(event) {
         const reader = new FileReader();
         reader.onload = function() {
-            const output = document.querySelector('img[alt="Profile Image"]');
-            output.src = reader.result;
+            if(avatarPreview.tagName === 'IMG') {
+                avatarPreview.src = reader.result;
+            } else {
+                avatarPreview.style.backgroundImage = `url(${reader.result})`;
+                avatarPreview.innerHTML = '';
+                avatarPreview.style.backgroundSize = 'cover';
+                avatarPreview.style.backgroundPosition = 'center';
+            }
         }
         reader.readAsDataURL(event.target.files[0]);
     });
+
+    // Delete avatar
+    deleteBtn.addEventListener('click', function() {
+        if(avatarPreview.tagName === 'IMG') {
+            avatarPreview.src = '';
+        } else {
+            avatarPreview.style.backgroundImage = '';
+            avatarPreview.innerHTML = '👤';
+        }
+        avatarInput.value = '';
+    });
 </script>
-
-</body>
-
-</html>
+{% endblock %}
