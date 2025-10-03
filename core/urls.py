@@ -32,9 +32,10 @@ urlpatterns = [
     path('backtesting/', views.landingpage, name='landingpage'),
     path('profile_details/', views.profile_details, name='profile_details'),
 
-    # 🔹 API endpointlar
+    # 🔹 API endpointlare
     path("crypto/prices/", views.crypto_prices_view, name="crypto-prices"),
     path("crypto/news/<str:coin_name>/", views.crypto_news_view, name="crypto-news"),
     path("metrics/calculate/", views.calculate_metrics_view, name="calculate-metrics"),
-    path("calendar/", views.calendar__, name="calendar___")
-]
+    path("calendar/", views.calendar__, name="calendar___"),
+    path("chart/", views.chart, name="chart")
+    ]

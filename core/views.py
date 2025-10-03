@@ -18,13 +18,13 @@ from django.contrib.auth.decorators import login_required
 def base(request):
     profile = Profile.objects.filter(user=request.user).first()
     if not profile:
-        return redirect('profile')  # Redirect to profile setup if incomplete
+        return redirect('profile')  
     
     metrics = PerformanceMetrics.objects.filter(user=request.user).first()
     trades = Trade.objects.filter(user=request.user).order_by('-trade_time')
     live_prices = get_crypto_prices()  # Correct function name
     print("Live Prices:", live_prices)
-    news = get_crypto_news("bitcoin")  # Provide a coin name as argument
+    news = get_crypto_news("bitcoin")  
     print("News:", news)
 
     return render(request, 'base.html', {
@@ -361,3 +361,11 @@ def economic_calendar(request):
 @login_required
 def calendar__(request):
     return render(request, 'calendar.html')
+
+@login_required
+def trach_____(request):
+    return render(request, 'trach.html')
+
+@login_required
+def chart(request):
+    return render(request, 'chart.html')

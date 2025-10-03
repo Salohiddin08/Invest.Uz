@@ -8,18 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-white text-gray-900 transition-colors duration-300 flex flex-col min-h-screen">
+<body class="bg-gray-900 text-gray-100 transition-colors duration-300 flex flex-col min-h-screen">
 
     <!-- Navbar -->
-    <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+    <header class="bg-gray-800 shadow-lg fixed top-0 left-0 w-full z-50 border-b border-gray-700">
         <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
-            <h1 class="text-2xl font-bold text-blue-700">📊 Invest.Uz</h1>
+            <h1 class="text-2xl font-bold text-blue-400">📊 Invest.Uz</h1>
 
             <nav class="hidden md:flex space-x-6">
-                <a href="{% url 'landingpage' %}" class="hover:text-blue-600">Bosh sahifa</a>
-                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-600">Test</a>
-                <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-600">Natijalar</a>
-                <a href="{% url 'calendar___' %}" class="hover:text-blue-600">Kalendar</a>
+                <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
+                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Test</a>
+                <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta Bozori</a>
+                <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
+                <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
             </nav>
 
             <div class="flex items-center space-x-4">
@@ -30,70 +31,106 @@
                         <img src="{{ request.user.profile.profile_image.url }}" alt="Profil rasmi"
                             class="w-10 h-10 rounded-full border-2 border-green-500">
                         {% else %}
-                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">👤</div>
+                        <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">👤</div>
                         {% endif %}
                     </button>
-                    <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
-                        <a href="{% url 'profile_details' %}" class="block px-4 py-2 hover:bg-gray-100">Profil</a>
-                        <a href="{% url 'strategyoverview' %}" class="block px-4 py-2 hover:bg-gray-100">Testlarim</a>
-                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Chiqish</a>
+                    <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg border border-gray-700">
+                        <a href="{% url 'profile_details' %}" class="block px-4 py-2 hover:bg-gray-700">Profil</a>
+                        <a href="{% url 'strategyoverview' %}" class="block px-4 py-2 hover:bg-gray-700">Testlarim</a>
+                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-500 hover:bg-gray-700">Chiqish</a>
                     </div>
                 </div>
                 {% else %}
-                <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Ro‘yxatdan o‘tish</a>
-                <a href="{% url 'login' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Kirish</a>
+                <a href="{% url 'signup' %}" class="bg-blue-400 text-gray-900 px-4 py-2 rounded-lg hover:bg-blue-300">Ro‘yxatdan o‘tish</a>
+                <a href="{% url 'login' %}" class="bg-blue-400 text-gray-900 px-4 py-2 rounded-lg hover:bg-blue-300">Kirish</a>
                 {% endif %}
             </div>
         </div>
     </header>
 
-    <!-- Asosiy kontent -->
+    <!-- Main Content: TradingView & Market Widgets -->
     <main class="flex-1 mt-24 max-w-7xl mx-auto w-full p-6">
         {% block content %}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            <!-- Narxlar -->
-            <section class="p-6 rounded-lg shadow-md bg-white">
-                <h2 class="text-xl font-bold mb-4 text-blue-700">📊 Real Vaqtdagi Narxlar</h2>
-                <ul id="prices-list" class="space-y-2">
-                    <li>Yuklanmoqda...</li>
-                </ul>
-                <p class="text-sm text-gray-500 mt-2">
-                    Oxirgi yangilanish: <span id="update-time">---</span>
-                </p>
-            </section>
-
-            <!-- Yangiliklar -->
-            <section class="p-6 rounded-lg shadow-md bg-white">
-                <h2 class="text-xl font-bold mb-4 text-blue-700">📰 Moliyaviy Yangiliklar</h2>
-                <ul class="space-y-3">
-                    {% if news %}
-                    {% for article in news %}
-                    <li>
-                        <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer"
-                            class="block text-blue-600 hover:underline font-semibold">
-                            {{ article.title }}
-                        </a>
-                        <p class="text-sm text-gray-600">{{ article.description }}</p>
-                    </li>
-                    {% endfor %}
-                    {% else %}
-                    <li>Hozircha yangiliklar mavjud emas.</li>
-                    {% endif %}
-                </ul>
-            </section>
-
-            <!-- Diagramma -->
-            <section class="p-6 rounded-lg shadow-md bg-white">
-                <h2 class="text-xl font-bold mb-4 text-blue-700">📈 Bozor Diagrammasi</h2>
-                <div id="charts-widget" class="w-full h-96 rounded-lg overflow-hidden">
-                    <script src="https://widgets.tradingeconomics.com/static/charts-widget.js" async>
+            <!-- Top Stories Widget -->
+            <section class="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-4">
+                <h2 class="text-xl font-bold text-blue-400 mb-4">📰 Top Stories</h2>
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <a href="https://www.tradingview.com/news/top-providers/tradingview/" rel="noopener nofollow" target="_blank"><span class="blue-text">Top stories</span></a><span class="trademark"> by TradingView</span>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
                     {
-                        "symbols": ["USDEUR:CUR", "XAUUSD:CUR", "BTCUSD:CUR"],
+                        "displayMode": "regular",
+                        "feedMode": "all_symbols",
+                        "colorTheme": "dark",
+                        "isTransparent": false,
+                        "locale": "en",
                         "width": "100%",
-                        "height": "100%",
-                        "header": true,
-                        "calendar": true
+                        "height": 400
+                    }
+                    </script>
+                </div>
+            </section>
+
+            <!-- Market Overview Widget -->
+            <section class="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-4">
+                <h2 class="text-xl font-bold text-blue-400 mb-4">📈 Market Overview</h2>
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <div class="tradingview-widget-copyright">
+                        <a href="https://www.tradingview.com/markets/" rel="noopener nofollow" target="_blank"><span class="blue-text">World markets</span></a><span class="trademark"> by TradingView</span>
+                    </div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                    {
+                        "colorTheme": "dark",
+                        "dateRange": "12M",
+                        "locale": "en",
+                        "largeChartUrl": "",
+                        "isTransparent": false,
+                        "showFloatingTooltip": false,
+                        "tabs": [
+                            {
+                                "title": "Indices",
+                                "symbols": [
+                                    {"s":"FOREXCOM:SPXUSD","d":"S&P 500 Index"},
+                                    {"s":"FOREXCOM:NSXUSD","d":"US 100 Cash CFD"},
+                                    {"s":"FOREXCOM:DJI","d":"Dow Jones Industrial Average Index"}
+                                ]
+                            },
+                            {
+                                "title": "Forex",
+                                "symbols": [
+                                    {"s":"FX:EURUSD","d":"EUR/USD"},
+                                    {"s":"FX:GBPUSD","d":"GBP/USD"},
+                                    {"s":"FX:USDJPY","d":"USD/JPY"}
+                                ]
+                            }
+                        ],
+                        "width": "100%",
+                        "height": 400,
+                        "showChart": true
+                    }
+                    </script>
+                </div>
+            </section>
+
+            <!-- Economic Calendar Widget -->
+            <section class="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-4">
+                <h2 class="text-xl font-bold text-blue-400 mb-4">📅 Economic Events</h2>
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <div class="tradingview-widget-copyright">
+                        <a href="https://www.tradingview.com/economic-calendar/" rel="noopener nofollow" target="_blank"><span class="blue-text">Economic Calendar</span></a><span class="trademark"> by TradingView</span>
+                    </div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+                    {
+                        "colorTheme": "dark",
+                        "isTransparent": false,
+                        "locale": "en",
+                        "importanceFilter": "-1,0,1",
+                        "width": "100%",
+                        "height": 400
                     }
                     </script>
                 </div>
@@ -118,39 +155,7 @@
                 menu.classList.add('hidden');
             }
         });
-
-        // Narxlarni olish
-        async function loadPrices() {
-            try {
-                let response = await fetch("{% url 'get_prices' %}");
-                let data = await response.json();
-
-                let pricesList = document.getElementById("prices-list");
-                pricesList.innerHTML = "";
-
-                if (!data.prices || Object.keys(data.prices).length === 0) {
-                    pricesList.innerHTML = "<li>Hozircha narxlar mavjud emas.</li>";
-                } else {
-                    for (const [pair, price] of Object.entries(data.prices)) {
-                        pricesList.innerHTML += `
-                            <li class="flex justify-between border-b pb-1 mb-1">
-                                <span class="font-semibold">${pair}</span>
-                                <span class="text-green-500">${price}</span>
-                            </li>`;
-                    }
-                }
-
-                document.getElementById("update-time").innerText = data.updated;
-            } catch (error) {
-                console.error("Narxlarni olishda xato:", error);
-                document.getElementById("prices-list").innerHTML = "<li>Narxlarni yuklab bo‘lmadi.</li>";
-            }
-        }
-
-        loadPrices();
-        setInterval(loadPrices, 30000);
     </script>
 
 </body>
-
 </html>
