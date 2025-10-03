@@ -13,28 +13,28 @@
     <!-- Navbar -->
     <header class="bg-gray-800 shadow-lg fixed top-0 left-0 w-full z-50 border-b border-gray-700">
         <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
-                <!-- <h1 class="text-2xl font-bold text-blue-400">
-                <img src="https://i.postimg.cc/j2vCDdC1/Chat-GPT-Image-Oct-3-2025-04-21-35-PM-1.png" 
-                alt="Invest.Uz Logo" 
-                style="width:100px; height:auto;">
-                </h1> -->
-
+            
             <nav class="hidden md:flex space-x-6 items-center">
-            <h1 class="text-2xl font-bold text-blue-400">
-                <img src="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" 
-                alt="Invest.Uz Logo" 
-                style="width:100px; height:auto;">
+                <h1 class="text-2xl font-bold text-blue-400">
+                    <img src="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" 
+                    alt="Invest.Uz Logo" 
+                    style="width:100px; height:auto;">
                 </h1>
-            <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
-            <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Test</a>
-            <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta bozori</a>
-            <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
-            <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
-        </nav>
+                <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
+                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Bilimingizni tekshiring</a>
+                <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta bozori</a>
+                <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
+                <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
+            </nav>
 
+            <!-- Auth / Profile -->
             <div class="flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
-                <div class="relative">
+                <div class="relative flex items-center space-x-2">
+                    <!-- Username -->
+                    <span class="text-gray-200 font-medium">{{ request.user.username }}</span>
+                    
+                    <!-- Avatar -->
                     <button id="profileBtn" aria-label="Profil menyusini ochish">
                         {% if request.user.profile.profile_image %}
                         <img src="{{ request.user.profile.profile_image.url }}" alt="Profil rasmi"
@@ -43,6 +43,8 @@
                         <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">👤</div>
                         {% endif %}
                     </button>
+
+                    <!-- Dropdown menu -->
                     <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg border border-gray-700">
                         <a href="{% url 'profile_details' %}" class="block px-4 py-2 hover:bg-gray-700">Profil</a>
                         <a href="{% url 'strategyoverview' %}" class="block px-4 py-2 hover:bg-gray-700">Testlarim</a>
@@ -57,11 +59,10 @@
         </div>
     </header>
 
-    <!-- Main Content: TradingView & Market Widgets -->
+    <!-- Main Content -->
     <main class="flex-1 mt-24 max-w-7xl mx-auto w-full p-6">
         {% block content %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
             <!-- Top Stories Widget -->
             <section class="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-4">
                 <h2 class="text-xl font-bold text-blue-400 mb-4">📰 Top Stories</h2>
@@ -144,7 +145,6 @@
                     </script>
                 </div>
             </section>
-
         </div>
         {% endblock %}
     </main>
