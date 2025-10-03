@@ -13,15 +13,24 @@
     <!-- Navbar -->
     <header class="bg-gray-800 shadow-lg fixed top-0 left-0 w-full z-50 border-b border-gray-700">
         <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
-            <h1 class="text-2xl font-bold text-blue-400">📊 Invest.Uz</h1>
+                <!-- <h1 class="text-2xl font-bold text-blue-400">
+                <img src="https://i.postimg.cc/j2vCDdC1/Chat-GPT-Image-Oct-3-2025-04-21-35-PM-1.png" 
+                alt="Invest.Uz Logo" 
+                style="width:100px; height:auto;">
+                </h1> -->
 
-            <nav class="hidden md:flex space-x-6">
-                <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
-                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Test</a>
-                <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta Bozori</a>
-                <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
-                <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
-            </nav>
+            <nav class="hidden md:flex space-x-6 items-center">
+            <h1 class="text-2xl font-bold text-blue-400">
+                <img src="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" 
+                alt="Invest.Uz Logo" 
+                style="width:100px; height:auto;">
+                </h1>
+            <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
+            <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Test</a>
+            <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta bozori</a>
+            <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
+            <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
+        </nav>
 
             <div class="flex items-center space-x-4">
                 {% if request.user.is_authenticated %}

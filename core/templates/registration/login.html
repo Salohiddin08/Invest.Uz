@@ -9,12 +9,44 @@
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        .custom-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        body, .custom-bg {
+            background: #121212; /* Qora fon */
+            color: #ffffff; /* Oq matn */
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+        .card {
+            background: #1e1e1e; /* Qora kart fon */
+            color: #ffffff; /* Kart ichidagi matn oq bo'lsin */
+            border-radius: 25px;
+        }
+        .form-control {
+            background: #2c2c2c;
+            color: #ffffff; /* Input matni oq bo'lsin */
+            border: 1px solid #444;
+        }
+        .form-control::placeholder {
+            color: #cccccc; /* Placeholder matni kulrang */
+        }
+        .form-control:focus {
+            background: #2c2c2c;
+            color: #ffffff;
+            border-color: #888;
+            box-shadow: none;
+        }
+        .form-label {
+            color: #ffffff; /* Label oq bo'lsin */
+        }
+        .btn-primary {
+            background-color: #4a90e2;
+            border-color: #4a90e2;
+        }
+        .btn-link {
+            color: #4a90e2;
+        }
+        .btn-link:hover {
+            color: #66b0ff;
+        }
+        i {
+            color: #ffffff; /* Font Awesome icon oq bo'lsin */
         }
     </style>
 </head>
@@ -23,7 +55,7 @@
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-lg-12 col-xl-11">
-                    <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card">
                         <div class="card-body p-md-5">
                             <div class="row justify-content-center">
                                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
@@ -75,7 +107,7 @@
                                 </div>
 
                                 <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                                    <img src="https://yt3.googleusercontent.com/ytc/AIdro_mwb8PXr627nmWyu-jGHOZsF3MR7Yfbq351C2sE-xzgPg=s900-c-k-c0x00ffffff-no-rj" class="img-fluid" alt="Namunaviy rasm">
+                                    <img src="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" class="img-fluid" alt="Namunaviy rasm">
                                 </div>
                             </div>
                         </div>
