@@ -14,7 +14,7 @@ from api.calculations import update_performance_metrics
 import requests
 from django.contrib.auth.decorators import login_required
 
-@login_required
+# @login_required
 def base(request):
     profile = Profile.objects.filter(user=request.user).first()
     if not profile:
