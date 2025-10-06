@@ -5,75 +5,76 @@
 <section class="max-w-7xl mx-auto py-12 px-4">
     <h1 class="text-3xl font-bold text-center text-gray-100 mb-10">Valyuta va Kripto Kurslari</h1>
 
-    <!-- Kurslar grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-gray-800 border border-gray-700 text-gray-100 rounded-lg">
+            <thead>
+                <tr class="bg-gray-900 text-left">
+                    <th class="py-3 px-6 border-b border-gray-700">Valyuta / Kripto</th>
+                    <th class="py-3 px-6 border-b border-gray-700">Belgi</th>
+                    <th class="py-3 px-6 border-b border-gray-700">USD / Mahalliy</th>
+                    <th class="py-3 px-6 border-b border-gray-700">Mahalliy Valyuta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fiat valyutalar -->
+                <tr>
+                    <td>AQSH Dollari → Oʻzbek Soʻmi</td>
+                    <td><img src="https://flagcdn.com/us.svg" alt="USA" class="w-6 inline"> → <img src="https://flagcdn.com/uz.svg" alt="UZ" class="w-6 inline"></td>
+                    <td id="usd-to-uzs">...</td>
+                    <td>UZS</td>
+                </tr>
+                <tr>
+                    <td>AQSH Dollari → Rossiya Rubli</td>
+                    <td><img src="https://flagcdn.com/us.svg" alt="USA" class="w-6 inline"> → <img src="https://flagcdn.com/ru.svg" alt="RU" class="w-6 inline"></td>
+                    <td id="usd-to-rub">...</td>
+                    <td>RUB</td>
+                </tr>
+                <tr>
+                    <td>Yevro → AQSH Dollari</td>
+                    <td><img src="https://flagcdn.com/eu.svg" alt="EU" class="w-6 inline"> → <img src="https://flagcdn.com/us.svg" alt="USA" class="w-6 inline"></td>
+                    <td id="eur-to-usd">...</td>
+                    <td>USD</td>
+                </tr>
+                <tr>
+                    <td>Yevro → Oʻzbek Soʻmi</td>
+                    <td><img src="https://flagcdn.com/eu.svg" alt="EU" class="w-6 inline"> → <img src="https://flagcdn.com/uz.svg" alt="UZ" class="w-6 inline"></td>
+                    <td id="eur-to-uzs">...</td>
+                    <td>UZS</td>
+                </tr>
 
-        <!-- USD → Oʻzbek Soʻmi -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">AQSH Dollari → Oʻzbek Soʻmi</h2>
-            <p id="usd-to-uzs" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- USD → Rossiya Rubli -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">AQSH Dollari → Rossiya Rubli</h2>
-            <p id="usd-to-rub" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- Yevro → AQSH Dollari -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">Yevro → AQSH Dollari</h2>
-            <p id="eur-to-usd" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- Yevro → Oʻzbek Soʻmi -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">Yevro → Oʻzbek Soʻmi</h2>
-            <p id="eur-to-uzs" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- USDT → Oʻzbek Soʻmi -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">USDT → Oʻzbek Soʻmi</h2>
-            <p id="usdt-to-uzs" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- Bitcoin → AQSH Dollari -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">Bitcoin → AQSH Dollari</h2>
-            <p id="btc-to-usd" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- Ethereum → AQSH Dollari -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">Ethereum → AQSH Dollari</h2>
-            <p id="eth-to-usd" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- TON → AQSH Dollari
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">TON → AQSH Dollari</h2>
-            <p id="ton-to-usd" class="text-xl font-bold text-blue-400">...</p>
-        </div> -->
-
-        <!-- Bitcoin → Oʻzbek Soʻmi -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">Bitcoin → Oʻzbek Soʻmi</h2>
-            <p id="btc-to-uzs" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- Ethereum → Oʻzbek Soʻmi -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">Ethereum → Oʻzbek Soʻmi</h2>
-            <p id="eth-to-uzs" class="text-xl font-bold text-blue-400">...</p>
-        </div>
-
-        <!-- TON → Oʻzbek Soʻmi
-        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
-            <h2 class="font-semibold text-lg text-gray-200 mb-2">TON → Oʻzbek Soʻmi</h2>
-            <p id="ton-to-uzs" class="text-xl font-bold text-blue-400">...</p>
-        </div> -->
-
+                <!-- Kriptovalyutalar -->
+                <tr>
+                    <td>USDT → Oʻzbek Soʻmi</td>
+                    <td><img src="https://s2.coinmarketcap.com/static/img/coins/200x200/825.png" alt="USDT" class="w-6 inline"></td>
+                    <td id="usdt-to-uzs">...</td>
+                    <td>UZS</td>
+                </tr>
+                <tr>
+                    <td>Bitcoin → AQSH Dollari</td>
+                    <td><img src="data:image/png;base64,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" alt="BTC" class="w-6 inline"></td>
+                    <td id="btc-to-usd">...</td>
+                    <td>USD</td>
+                </tr>
+                <tr>
+                    <td>Bitcoin → Oʻzbek Soʻmi</td>
+                    <td><img src="data:image/png;base64,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" alt="BTC" class="w-6 inline"></td>
+                    <td id="btc-to-uzs">...</td>
+                    <td>UZS</td>
+                </tr>
+                <tr>
+                    <td>Ethereum → AQSH Dollari</td>
+                    <td><img src="https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png" alt="ETH" class="w-6 inline"></td>
+                    <td id="eth-to-usd">...</td>
+                    <td>USD</td>
+                </tr>
+                <tr>
+                    <td>Ethereum → Oʻzbek Soʻmi</td>
+                    <td><img src="https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png" alt="ETH" class="w-6 inline"></td>
+                    <td id="eth-to-uzs">...</td>
+                    <td>UZS</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 
@@ -85,14 +86,13 @@ async function fetchFiatRates() {
 
         const usdToUzs = data.rates.UZS;
         const usdToRub = data.rates.RUB;
-        const eurToUsd = 1 / data.rates.EUR; 
+        const eurToUsd = 1 / data.rates.EUR;
         const eurToUzs = usdToUzs * (1 / data.rates.EUR);
 
         document.getElementById("usd-to-uzs").textContent = usdToUzs.toLocaleString();
         document.getElementById("usd-to-rub").textContent = usdToRub.toLocaleString();
         document.getElementById("eur-to-usd").textContent = eurToUsd.toFixed(4);
         document.getElementById("eur-to-uzs").textContent = Math.round(eurToUzs).toLocaleString();
-
         document.getElementById("usdt-to-uzs").textContent = usdToUzs.toLocaleString();
 
     } catch (error) {
@@ -103,7 +103,7 @@ async function fetchFiatRates() {
 async function fetchCryptoRates() {
     try {
         const response = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,toncoin&vs_currencies=usd"
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,toncoin,tether&vs_currencies=usd"
         );
         const data = await response.json();
 
@@ -122,6 +122,9 @@ async function fetchCryptoRates() {
         const tonUsd = data.toncoin.usd;
         document.getElementById("ton-to-usd").textContent = tonUsd.toLocaleString();
         document.getElementById("ton-to-uzs").textContent = Math.round(tonUsd * usdToUzs).toLocaleString();
+
+        const usdtUsd = data.tether.usd;
+        document.getElementById("usdt-to-uzs").textContent = Math.round(usdtUsd * usdToUzs).toLocaleString();
 
     } catch (error) {
         console.error("Crypto rates error:", error);
