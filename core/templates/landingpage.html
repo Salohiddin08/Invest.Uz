@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invest.Uz | Real vaqtda moliya bozorini kuzating</title>
+    <title>Invest.Uz | Real vaqtda moliya va kripto bozorini kuzating</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" type="image/png">
-
 </head>
 
 <body class="bg-gray-900 text-gray-200 transition-colors duration-300 flex flex-col min-h-screen">
@@ -16,17 +15,16 @@
     <header class="bg-gray-800 shadow-md fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
             <!-- Logo -->
-            
-
-            <!-- Navigation -->
-            <nav class="hidden md:flex space-x-6 items-center">
-                <h1 class="text-2xl font-bold text-blue-400">
+            <h1 class="text-2xl font-bold text-blue-400">
                 <img src="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" 
                      alt="Invest.Uz Logo" 
                      style="width:100px; height:auto;">
-                </h1>
+            </h1>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-6 items-center">
                 <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
-                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Test</a>
+                <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Bilimingizni tekshiring</a>
                 <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta bozori</a>
                 <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
                 <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
@@ -37,10 +35,7 @@
             <div class="flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
                 <div class="relative flex items-center space-x-2">
-                    <!-- Foydalanuvchi username -->
                     <span class="text-gray-200 font-medium">{{ request.user.username }}</span>
-
-                    <!-- Avatar tugmasi -->
                     <button id="profileBtn" aria-label="Profil menyusini ochish">
                         {% if request.user.profile.profile_image %}
                         <img src="{{ request.user.profile.profile_image.url }}" alt="Profil rasmi"
@@ -49,8 +44,6 @@
                         <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">👤</div>
                         {% endif %}
                     </button>
-
-                    <!-- Dropdown menu -->
                     <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg border border-gray-700">
                         <a href="{% url 'profile_details' %}" class="block px-4 py-2 hover:bg-gray-700">Profil</a>
                         <a href="{% url 'strategyoverview' %}" class="block px-4 py-2 hover:bg-gray-700">Testlarim</a>
@@ -67,38 +60,64 @@
 
     <!-- Hero Section -->
     <section class="bg-gradient-to-r from-blue-700 to-cyan-600 text-white text-center py-32 mt-24">
-        <h1 class="text-4xl font-bold mb-4">Moliyaviy bozorlarni real vaqtda kuzating</h1>
-        <p class="text-xl mb-6">Invest.Uz yordamida kripto, valyuta va aksiyalar bozorini o‘rganing, trendlarni tahlil qiling va aqlli investitsiyalar qiling.</p>
-        <a href="{% url 'signup' %}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg text-lg">Boshlash</a>
+        <h1 class="text-4xl font-bold mb-4">Moliyaviy va kripto bozorlarni real vaqtda kuzating</h1>
+        <p class="text-xl mb-6">Invest.Uz yordamida valyuta, kripto va aksiyalar bozorini o‘rganing, testlardan foydalaning va aqlli investitsiyalar qiling.</p>
+        <a href="{% url 'landingpage' %}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg text-lg">Boshlash</a>
     </section>
 
     <!-- Features Section -->
     <section class="py-20 px-6 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12 text-gray-100">Nega aynan Invest.Uz?</h2>
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-100">Nima uchun Invest.Uz?</h2>
         <div class="grid md:grid-cols-3 gap-8">
+
+            <!-- Kurslar -->
+            <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
+                <i class="fas fa-money-bill-wave text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-gray-100">Valyutalar Kursi</h3>
+                <p class="text-gray-300">AQSH dollari, Yevro, Bitcoin, Ethereum va boshqa kripto va fiat valyutalar kurslarini real vaqt rejimida kuzating.</p>
+                <a href="{% url 'currency' %}" class="text-blue-400 hover:underline mt-2 inline-block">Kurslarni ko‘rish</a>
+            </div>
+
+            <!-- Testlar -->
+            <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
+                <i class="fas fa-clipboard-check text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-gray-100">Bilimingizni tekshiring</h3>
+                <p class="text-gray-300">Moliyaviy bilimlaringizni testlar yordamida tekshiring va bozor tahlilida o‘zingizni sinab ko‘ring.</p>
+                <a href="{% url 'strategyoverview' %}" class="text-blue-400 hover:underline mt-2 inline-block">Testlarni boshlash</a>
+            </div>
+
+            <!-- Kripto bozor -->
             <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
                 <i class="fas fa-chart-line text-4xl text-blue-400 mb-4"></i>
-                <h3 class="text-xl font-semibold mb-2 text-gray-100">Kengaytirilgan tahlil</h3>
-                <p class="text-gray-300">Moliyaviy bozorlar va investitsiyalaringizni batafsil grafiklar va tahlillar orqali kuzating.</p>
+                <h3 class="text-xl font-semibold mb-2 text-gray-100">Kriptovalyuta Bozori</h3>
+                <p class="text-gray-300">Bitcoin, Ethereum, TON va boshqa kripto valyutalarning narxlarini, grafiklarini va trendlarini kuzating.</p>
+                <a href="{% url 'performanceanalytics' %}" class="text-blue-400 hover:underline mt-2 inline-block">Bozorga kirish</a>
             </div>
+
+            <!-- Kalendar -->
             <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
-                <i class="fas fa-clock text-4xl text-blue-400 mb-4"></i>
-                <h3 class="text-xl font-semibold mb-2 text-gray-100">Real vaqt kuzatuvi</h3>
-                <p class="text-gray-300">Valyuta, kripto va aksiyalar bozorini istalgan vaqtda, istalgan joydan kuzating.</p>
+                <i class="fas fa-calendar-alt text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-gray-100">Economic Calendar</h3>
+                <p class="text-gray-300">Muayyan sanalardagi muhim iqtisodiy hodisalarni kuzatib boring va bozor qarorlaringizni rejalashtiring.</p>
+                <a href="{% url 'calendar___' %}" class="text-blue-400 hover:underline mt-2 inline-block">Kalendarni ko‘rish</a>
             </div>
+
+            <!-- Grafik -->
             <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
-                <i class="fas fa-lock text-4xl text-blue-400 mb-4"></i>
-                <h3 class="text-xl font-semibold mb-2 text-gray-100">Xavfsiz va ishonchli</h3>
-                <p class="text-gray-300">Ma’lumotlaringiz eng yuqori darajadagi xavfsizlik va ishonchlilik bilan himoyalangan.</p>
+                <i class="fas fa-chart-bar text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-gray-100">Grafiklar</h3>
+                <p class="text-gray-300">Moliyaviy va kripto aktivlarining grafiklarini turli timeframe’larda kuzating va tahlil qiling.</p>
+                <a href="{% url 'chart' %}" class="text-blue-400 hover:underline mt-2 inline-block">Grafiklarni ko‘rish</a>
             </div>
+
         </div>
     </section>
 
     <!-- Call to Action -->
     <section class="bg-gray-800 text-white text-center py-16 border-t border-gray-700">
-        <h2 class="text-3xl font-bold mb-4 text-gray-100">Aqlli investitsiyalarga tayyormisiz?</h2>
+        <h2 class="text-3xl font-bold mb-4 text-gray-100">Investitsiyalarga tayyormisiz?</h2>
         <p class="mb-6 text-gray-300">Bugunoq ro‘yxatdan o‘ting va bozor imkoniyatlaridan to‘liq foydalaning.</p>
-        <a href="{% url 'signup' %}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg text-lg">Boshlash</a>
+        <a href="{% url 'landingpage' %}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg text-lg">Boshlash</a>
     </section>
 
     <!-- Footer -->
@@ -126,5 +145,4 @@
         });
     </script>
 </body>
-
 </html>
