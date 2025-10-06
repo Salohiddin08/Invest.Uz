@@ -37,5 +37,6 @@ urlpatterns = [
     path("crypto/news/<str:coin_name>/", views.crypto_news_view, name="crypto-news"),
     path("metrics/calculate/", views.calculate_metrics_view, name="calculate-metrics"),
     path("calendar/", views.calendar__, name="calendar___"),
-    path("chart/", views.chart, name="chart")
+    path("chart/", views.chart, name="chart"),
+    path("currency_price/", views.currency_price, name= "currency")
     ]

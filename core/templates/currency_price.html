@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="max-w-7xl mx-auto py-12 px-4">
+    <h1 class="text-3xl font-bold text-center text-gray-100 mb-10">Valyuta va Kripto Kurslari</h1>
+
+    <!-- Kurslar grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+        <!-- USD → Oʻzbek Soʻmi -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">AQSH Dollari → Oʻzbek Soʻmi</h2>
+            <p id="usd-to-uzs" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- USD → Rossiya Rubli -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">AQSH Dollari → Rossiya Rubli</h2>
+            <p id="usd-to-rub" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- Yevro → AQSH Dollari -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">Yevro → AQSH Dollari</h2>
+            <p id="eur-to-usd" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- Yevro → Oʻzbek Soʻmi -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">Yevro → Oʻzbek Soʻmi</h2>
+            <p id="eur-to-uzs" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- USDT → Oʻzbek Soʻmi -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">USDT → Oʻzbek Soʻmi</h2>
+            <p id="usdt-to-uzs" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- Bitcoin → AQSH Dollari -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">Bitcoin → AQSH Dollari</h2>
+            <p id="btc-to-usd" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- Ethereum → AQSH Dollari -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">Ethereum → AQSH Dollari</h2>
+            <p id="eth-to-usd" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- TON → AQSH Dollari
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">TON → AQSH Dollari</h2>
+            <p id="ton-to-usd" class="text-xl font-bold text-blue-400">...</p>
+        </div> -->
+
+        <!-- Bitcoin → Oʻzbek Soʻmi -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">Bitcoin → Oʻzbek Soʻmi</h2>
+            <p id="btc-to-uzs" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- Ethereum → Oʻzbek Soʻmi -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">Ethereum → Oʻzbek Soʻmi</h2>
+            <p id="eth-to-uzs" class="text-xl font-bold text-blue-400">...</p>
+        </div>
+
+        <!-- TON → Oʻzbek Soʻmi
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 text-center">
+            <h2 class="font-semibold text-lg text-gray-200 mb-2">TON → Oʻzbek Soʻmi</h2>
+            <p id="ton-to-uzs" class="text-xl font-bold text-blue-400">...</p>
+        </div> -->
+
+    </div>
+</section>
+
+<script>
+async function fetchFiatRates() {
+    try {
+        const response = await fetch("https://open.er-api.com/v6/latest/USD");
+        const data = await response.json();
+
+        const usdToUzs = data.rates.UZS;
+        const usdToRub = data.rates.RUB;
+        const eurToUsd = 1 / data.rates.EUR; 
+        const eurToUzs = usdToUzs * (1 / data.rates.EUR);
+
+        document.getElementById("usd-to-uzs").textContent = usdToUzs.toLocaleString();
+        document.getElementById("usd-to-rub").textContent = usdToRub.toLocaleString();
+        document.getElementById("eur-to-usd").textContent = eurToUsd.toFixed(4);
+        document.getElementById("eur-to-uzs").textContent = Math.round(eurToUzs).toLocaleString();
+
+        document.getElementById("usdt-to-uzs").textContent = usdToUzs.toLocaleString();
+
+    } catch (error) {
+        console.error("Fiat rates error:", error);
+    }
+}
+
+async function fetchCryptoRates() {
+    try {
+        const response = await fetch(
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,toncoin&vs_currencies=usd"
+        );
+        const data = await response.json();
+
+        const usdResponse = await fetch("https://open.er-api.com/v6/latest/USD");
+        const usdData = await usdResponse.json();
+        const usdToUzs = usdData.rates.UZS;
+
+        const btcUsd = data.bitcoin.usd;
+        document.getElementById("btc-to-usd").textContent = btcUsd.toLocaleString();
+        document.getElementById("btc-to-uzs").textContent = Math.round(btcUsd * usdToUzs).toLocaleString();
+
+        const ethUsd = data.ethereum.usd;
+        document.getElementById("eth-to-usd").textContent = ethUsd.toLocaleString();
+        document.getElementById("eth-to-uzs").textContent = Math.round(ethUsd * usdToUzs).toLocaleString();
+
+        const tonUsd = data.toncoin.usd;
+        document.getElementById("ton-to-usd").textContent = tonUsd.toLocaleString();
+        document.getElementById("ton-to-uzs").textContent = Math.round(tonUsd * usdToUzs).toLocaleString();
+
+    } catch (error) {
+        console.error("Crypto rates error:", error);
+    }
+}
+
+fetchFiatRates();
+fetchCryptoRates();
+
+setInterval(() => {
+    fetchFiatRates();
+    fetchCryptoRates();
+}, 60000);
+</script>
+
+{% endblock %}

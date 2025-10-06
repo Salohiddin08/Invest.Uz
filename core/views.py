@@ -363,8 +363,8 @@ def calendar__(request):
     return render(request, 'calendar.html')
 
 @login_required
-def trach_____(request):
-    return render(request, 'trach.html')
+def currency_price(request):
+    return render(request, 'currency_price.html')
 
 @login_required
 def chart(request):
