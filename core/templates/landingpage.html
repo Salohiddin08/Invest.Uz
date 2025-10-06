@@ -14,6 +14,7 @@
     <!-- Navbar -->
     <header class="bg-gray-800 shadow-md fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+
             <!-- Logo -->
             <h1 class="text-2xl font-bold text-blue-400">
                 <img src="https://i.postimg.cc/QMTnqFgd/photo-2025-10-03-17-13-19.jpg" 
@@ -21,7 +22,7 @@
                      style="width:100px; height:auto;">
             </h1>
 
-            <!-- Navigation -->
+            <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
                 <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Bilimingizni tekshiring</a>
@@ -31,8 +32,13 @@
                 <a href="{% url 'currency' %}" class="hover:text-blue-300">Valyutalar Kursi</a>
             </nav>
 
+            <!-- Mobile Hamburger -->
+            <div class="md:hidden flex items-center">
+                <button id="mobileMenuBtn" class="text-white focus:outline-none text-2xl">☰</button>
+            </div>
+
             <!-- Profile / Auth Buttons -->
-            <div class="flex items-center space-x-4">
+            <div class="hidden md:flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
                 <div class="relative flex items-center space-x-2">
                     <span class="text-gray-200 font-medium">{{ request.user.username }}</span>
@@ -55,7 +61,19 @@
                 <a href="{% url 'login' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Kirish</a>
                 {% endif %}
             </div>
+
         </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden flex flex-col space-y-2 p-4 bg-gray-800 border-t border-gray-700">
+            <a href="{% url 'landingpage' %}" class="hover:text-blue-300">Bosh sahifa</a>
+            <a href="{% url 'strategyoverview' %}" class="hover:text-blue-300">Bilimingizni tekshiring</a>
+            <a href="{% url 'performanceanalytics' %}" class="hover:text-blue-300">Kriptovalyuta bozori</a>
+            <a href="{% url 'calendar___' %}" class="hover:text-blue-300">Kalendar</a>
+            <a href="{% url 'chart' %}" class="hover:text-blue-300">Grafik</a>
+            <a href="{% url 'currency' %}" class="hover:text-blue-300">Valyutalar Kursi</a>
+        </div>
+
     </header>
 
     <!-- Hero Section -->
@@ -94,22 +112,6 @@
                 <a href="{% url 'performanceanalytics' %}" class="text-blue-400 hover:underline mt-2 inline-block">Bozorga kirish</a>
             </div>
 
-            <!-- Kalendar -->
-            <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
-                <i class="fas fa-calendar-alt text-4xl text-blue-400 mb-4"></i>
-                <h3 class="text-xl font-semibold mb-2 text-gray-100">Economic Calendar</h3>
-                <p class="text-gray-300">Muayyan sanalardagi muhim iqtisodiy hodisalarni kuzatib boring va bozor qarorlaringizni rejalashtiring.</p>
-                <a href="{% url 'calendar___' %}" class="text-blue-400 hover:underline mt-2 inline-block">Kalendarni ko‘rish</a>
-            </div>
-
-            <!-- Grafik -->
-            <div class="bg-gray-800 shadow-md rounded-lg p-6 text-center hover:shadow-xl transition border border-gray-700">
-                <i class="fas fa-chart-bar text-4xl text-blue-400 mb-4"></i>
-                <h3 class="text-xl font-semibold mb-2 text-gray-100">Grafiklar</h3>
-                <p class="text-gray-300">Moliyaviy va kripto aktivlarining grafiklarini turli timeframe’larda kuzating va tahlil qiling.</p>
-                <a href="{% url 'chart' %}" class="text-blue-400 hover:underline mt-2 inline-block">Grafiklarni ko‘rish</a>
-            </div>
-
         </div>
     </section>
 
@@ -143,6 +145,12 @@
                 menu.classList.add('hidden');
             }
         });
+
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
     </script>
+
 </body>
 </html>
